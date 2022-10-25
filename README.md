@@ -1,46 +1,9 @@
-# Forge Template
+# EIP-1822
 
-A template for quickly getting started with forge
+> Universal Upgradeable Proxy Standard (UUPS)
 
-## Getting Started
+The proxy contract stores the contract logic (implementation contract) on a specific storage slot which is predefined with an address. Then the proxy contract uses a `delegatecall()` (helps us execute with the transaction data on a different smart contract) to the implementation contract. So `delegatecall()` uses the logic of a different smart contract but with the variables of the current proxy contract. The state changes for the proxy contract only, not the implementation contract. 
 
-```
-mkdir my-project
-cd my-project
-forge init --template https://github.com/FrankieIsLost/forge-template
-git submodule update --init --recursive  ## initialize submodule dependencies
-npm install ## install development dependencies
-forge build
-forge test
-```
+So essentially, in order to upgrade the smart contract, you replace the implementation contract with a different addess (different implementation contract). Upgrading the contract is usually included in its original implementation (otherwise you cannot upgrade). You can include a `Proxiable` contract which contains a function to update the implemenation contract.
 
-## Features
-
-### Testing Utilities
-
-Includes a `Utilities.sol` contract with common testing methods (like creating users with an initial balance), as well as various other utility contracts.
-
-### Preinstalled dependencies
-
-`ds-test` for testing, `forge-std` for better cheatcode UX, and `solmate` for optimized contract implementations.  
-
-### Linting
-
-Pre-configured `solhint` and `prettier-plugin-solidity`. Can be run by
-
-```
-npm run solhint
-npm run prettier
-```
-
-### CI with Github Actions
-
-Automatically run linting and tests on pull requests.
-
-### Default Configuration
-
-Including `.gitignore`, `.vscode`, `remappings.txt`
-
-## Acknowledgement
-
-Inspired by great dapptools templates like https://github.com/gakonst/forge-template, https://github.com/gakonst/dapptools-template and https://github.com/transmissions11/dapptools-template
+[Contract Source](src/Contract.sol) · [Proxy Source](src/Proxy.sol)
